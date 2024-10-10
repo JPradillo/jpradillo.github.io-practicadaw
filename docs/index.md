@@ -90,7 +90,7 @@ Ya hemos comentado que el protocolo HTTP tiene un funcionamiento bastante sencil
 
 Gráficamente podemos resumir el proceso de comunicación HTTP como sigue:
 
-![Funcionamiento HTTP](/docs/assets/images/Teoría/comunicacion_http.png)
+![Funcionamiento HTTP](assets/images/Teoría/comunicacion_http.png)
 
 1. Un usuario accede a una URL, seleccionando un enlace de un documento HTML o introduciéndola directamente en el campo correspondiente del cliente Web.
 
@@ -108,7 +108,7 @@ Ejemplo: `http://www.miweb.com/documento.html`
 
 HTTP define un conjunto de métodos de petición para indicar la acción que se desea realizar para un recurso determinado.
 
-![Comandos HTTP](/docs/assets/images/Teoría/comandosHTTP.png)
+![Comandos HTTP](assets/images/Teoría/comandosHTTP.png)
 
 El estándar HTTP/1.0 recoge únicamente tres comandos, que representan las operaciones de recepción y envío de información y chequeo de estado:
 
@@ -138,7 +138,7 @@ Una solicitud HTTP es un conjunto de líneas que el navegador envía al servidor
 - Los campos del encabezado de solicitud: es un conjunto de líneas opcionales que permiten aportar información adicional sobre la solicitud y/o el cliente (navegador, sistema operativo, etc.). Cada una de estas líneas está formada por un nombre que describe el tipo de encabezado, seguido de dos puntos (:) y el valor del encabezado.
 - El cuerpo de la solicitud: es un conjunto de líneas opcionales que deben estar separadas de las líneas precedentes por una línea en blanco y que, por ejemplo, permiten la transmisión de datos al servidor de un formulario a través del método POST.
 
-![request](/docs/assets/images/Teoría/request.png)
+![request](assets/images/Teoría/request.png)
 
 - Una línea de estado donde figura el versión del protocolo usada, un código de estado/error y un texto con el significado de dicho código.
 - Los posibles códigos de estado se identifican con números de tres cifras y se clasifican en cinco grupos según sean informativos (1xx), de éxito en la solicitud (2xx), para redireccionar la solicitud (3xx), por error generado en el cliente (4xx) o bien por errores generados en el servidor (5xx) → **Códigos de estado/error**.
