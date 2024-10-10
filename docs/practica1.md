@@ -1,4 +1,4 @@
-# Practica 2.1
+# Práctica 2.1
 
 ## Instalación servidor web Nginx
 
