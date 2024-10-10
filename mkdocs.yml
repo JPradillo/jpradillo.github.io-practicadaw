@@ -4,5 +4,5 @@ theme:
   name: material
 
 nav:
-  - 'index.md'
+  - 'practica.md'
   - 'practica2.md'
