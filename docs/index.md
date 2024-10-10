@@ -327,6 +327,7 @@ Finalmente comprobamos que se nos abra la web y muestre este mensaje. Tras esto 
 > **¿Qué pasa si no hago el link simbólico entre `sites-available` y `sites-enabled` de mi sitio web?**
 
 Si no haces el enlace simbólico entre `sites-available`y `sites-enabled`
+
 - Provocarás que tu sitio no esté activo, produciendo errores de acceso (como 404)
 - Aunque hayas hecho la configuración de `sites-available`, el servidor no las reconocerá.
 - Hay riesgo de errores en la configuración que podrían dar la impresión de que el servidor está funcionando después de reiniciarse o recargarse, cuando en realidad no lo está.
