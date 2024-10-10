@@ -8,13 +8,13 @@ los repositorios y después instalamos el paquete correspondiente:
 `sudo apt update`
 `sudo apt install nginx`
 
-![Paso 1](Nginx/Instalacion_paso1.png)
+![Paso 1](assets/images/practica2_1/Instalacion_paso1.png)
 
 Comprobamos que nginx se ha instalado y que está funcionando correctamente:
 
 `systemctl status nginx`
 
-![Paso 2](Nginx/Instalacion_paso2.png)
+![Paso 2](assets/images/practica2_1/Instalacion_paso2.png)
 
 ## Creación de las carpeta del sitio web
 
@@ -24,38 +24,38 @@ Así pues, vamos a crear la carpeta de nuestro sitio web o dominio:
 
 `sudo mkdir -p /var/www/nombre_web/html`
 
-![Paso 3](Nginx/Instalacion_paso3.png)
+![Paso 3](assets/images/practica2_1/Instalacion_paso3.png)
 
 Dentro de esa carpeta html, debéis clonar el siguiente repositorio:
 
 `https://github.com/cloudacademy/static-website-example`
 
-![Paso 4](Nginx/Instalacion_paso4.png)
+![Paso 4](assets/images/practica2_1/Instalacion_paso4.png)
 
 Además, haremos que el propietario de esta carpeta y todo lo que haya dentro 
 sea el usuario www-data, típicamente el usuario del servicio web.
 
 `sudo chown -R www-data:www-data /var/www/nombre_web/html`
 
-![Paso 5](Nginx/Instalacion_paso5.png)
+![Paso 5](assets/images/practica2_1/Instalacion_paso5.png)
 
 Y le daremos los permisos adecuados para que no nos de un error de acceso 
 no autorizado al entrar en el sitio web:
 
 `sudo chmod -R 755 /var/www/nombre_web`
 
-![Paso 6](Nginx/Instalacion_paso6.png)
+![Paso 6](assets/images/practica2_1/Instalacion_paso6.png)
 
 Para comprobar que el servidor está funcionando y sirviendo páginas 
 correctamente, podéis acceder desde vuestro cliente a:
 
 `http://IP-maq-virtual`
 
-![IP](Nginx/SFTP_IP.png)
+![IP](assets/images/practica2_1/SFTP_IP.png)
 
 Y os deberá aparecer algo así:
 
-![Paso 7](Nginx/Instalacion_paso7.png)
+![Paso 7](assets/images/practica2_1/Instalacion_paso7.png)
 
 Lo que demuestra que todo es correcto hasta ahora.
 
@@ -69,7 +69,7 @@ Para que Nginx presente el contenido de nuestra web, es necesario crear un bloqu
 
 `sudo nano /etc/nginx/sites-available/vuestro_dominio`
 
-![Paso 8](Nginx/Configuracion_paso1.png)
+![Paso 8](assets/images/practica2_1/Configuracion_paso1.png)
 
 Y el contenido de ese archivo de configuración:
 
@@ -86,7 +86,7 @@ server {
 }
 ```
 
-![Paso 9](Nginx/Configuracion_paso2.png)
+![Paso 9](assets/images/practica2_1/Configuracion_paso2.png)
 
 Aquí la directiva root debe ir seguida de la ruta absoluta absoluta dónde se encuentre el archivo index.html de nuestra página web, que se encuentra entre todos los que habéis descomprimido.
 
@@ -94,13 +94,13 @@ Y crearemos un archivo simbólico entre este archivo y el de sitios que están h
 
 `sudo ln -s /etc/nginx/sites-available/nombre_web /etc/nginx/sites-enabled/`
 
-![Paso 10](Nginx/Configuracion_paso3.png)
+![Paso 10](assets/images/practica2_1/Configuracion_paso3.png)
 
 Y reiniciamos el servidor para aplicar la configuración:
 
 `sudo systemctl restart nginx`
 
-![Paso 11](Nginx/Configuracion_paso4.png)
+![Paso 11](assets/images/practica2_1/Configuracion_paso4.png)
 
 ## Comprobaciones
 
@@ -116,7 +116,7 @@ Y deberemos añadirle la línea:
 
 `192.168.X.X nombre_web`
 
-![Configuración](Nginx/Configuracion.png)
+![Configuración](assets/images/practica2_1/Configuracion.png)
 
 donde debéis sustituir la IP por la que tenga vuestra máquina virtual.
 
@@ -155,14 +155,14 @@ sudo apt-get update
 sudo apt-get install vsftpd
 ```
 
-![Paso 13](Nginx/SFTP_paso1.png)
-![Paso 14](Nginx/SFTP_paso2.png)
+![Paso 13](assets/images/practica2_1/SFTP_paso1.png)
+![Paso 14](assets/images/practica2_1/SFTP_paso2.png)
 
 Ahora vamos a crear una carpeta en nuestro home en Debian:
 
 `mkdir /home/nombre_usuario/ftp`
 
-![Paso 15](Nginx/SFTP_paso3.png)
+![Paso 15](assets/images/practica2_1/SFTP_paso3.png)
 
 En la configuración de vsftpd indicaremos que este será el directorio al cual vsftpd se cambia después de conectarse el usuario.
 
@@ -170,14 +170,14 @@ Ahora vamos a crear los certificados de seguridad necesarios para aportar la cap
 
 `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem`
 
-![Paso 16](Nginx/SFTP_paso4.png)
-![Paso 17](Nginx/SFTP_paso5.png)
+![Paso 16](assets/images/practica2_1/SFTP_paso4.png)
+![Paso 17](assets/images/practica2_1/SFTP_paso5.png)
 
 Y una vez realizados estos pasos, procedemos a realizar la configuración de vsftpd propiamente dicha. Se trata, con el editor de texto que más os guste, de editar el archivo de configuración de este servicio, por ejemplo con nano:
 
 `sudo nano /etc/vsftpd.conf`
 
-![Paso 18](Nginx/SFTP_paso6.png)
+![Paso 18](assets/images/practica2_1/SFTP_paso6.png)
 
 En primer lugar, buscaremos las siguientes líneas del archivo y las eliminaremos por completo:
 
@@ -205,13 +205,13 @@ ssl_ciphers=HIGH
 local_root=/home/nombre_usuario/ftp
 ```
 
-![Paso 19](Nginx/SFTP_paso7.png)
+![Paso 19](assets/images/practica2_1/SFTP_paso7.png)
 
 Y, tras guardar los cambios, reiniciamos el servicio para que coja la nueva configuración:
 
 `sudo systemctl restart --now vsftpd`
 
-![Paso 20](Nginx/SFTP_paso8.png)
+![Paso 20](assets/images/practica2_1/SFTP_paso8.png)
 
 Tras acabar esta configuración, ya podremos acceder a nuestro servidor mediante un cliente FTP adecuado, como por ejemplo Filezilla de dos formas, a saber:
 - Mediante el puerto por defecto del protocolo inseguro FTP, el 21, pero utilizando certificados que cifran el intercambio de datos convirtiéndolo así en seguro
@@ -219,7 +219,7 @@ Tras acabar esta configuración, ya podremos acceder a nuestro servidor mediante
 
 Tras descargar el cliente FTP en nuestro ordenador, introducimos los datos necesarios para conectarnos a nuestro servidor FTP en Debian:
 
-![Paso 21](Nginx/SFTP_paso9.png)
+![Paso 21](assets/images/practica2_1/SFTP_paso9.png)
 
 - La IP de Debian
 - El nombre de usuario de Debian
@@ -228,13 +228,13 @@ Tras descargar el cliente FTP en nuestro ordenador, introducimos los datos neces
 
 Tras darle al botón de Conexión rápida, nos saltará un aviso a propósito del certificado, le damos a aceptar puesto que no entraña peligro ya que lo hemos genrado nosotros mismos:
 
-![Paso 22](Nginx/SFTP_pasoo10.png)
+![Paso 22](assets/images/practica2_1/SFTP_pasoo10.png)
 
 Nos conectaremos directamente a la carpeta que le habíamos indicado en el archivo de configuración /home/raul/ftp
 
 Una vez conectados, buscamos la carpeta de nuestro ordenador donde hemos descargado el .zip (en la parte izquierda de la pantalla) y en la parte derecha de la pantalla, buscamos la carpeta donde queremos subirla. Con un doble click o utilizando botón derecho > subir, la subimos al servidor.
 
-![Paso 23](Nginx/SFTP_pasoo11.png)
+![Paso 23](assets/images/practica2_1/SFTP_pasoo11.png)
 
 Si lo que quisiéramos es conectarnos por SFTP, exactamente igual de válido, haríamos:
 
@@ -242,9 +242,9 @@ Fijáos que al utilizar las claves de SSH que ya estamos utilizando desde la Pr�
 
 Puesto que nos estamos conectando usando las claves FTP, nos sale el mismo aviso que nos salía al conectarnos por primera vez por SSH a nuestra Debian, que aceptamos porque sabemos que no entraña ningún peligro en este caso:
 
-![Paso 24](Nginx/SFTP_pasoo12.png)
+![Paso 24](assets/images/practica2_1/SFTP_pasoo12.png)
 
-![Paso 25](Nginx/SFTP_pasoo13.png)
+![Paso 25](assets/images/practica2_1/SFTP_pasoo13.png)
 
 Y vemos que al ser una especie de conexión SSH, nos conecta al home del usuario, en lugar de a la carpeta ftp. A partir de aquí ya procederíamos igual que en el otro caso.
 
@@ -254,7 +254,7 @@ El comando que nos permite descomprimir un .zip en un directorio concreto es:
 
 `unzip archivo.zip -d /nombre/directorio`
 
-![Paso 26](Nginx/SFTP_pasoo14.png)
+![Paso 26](assets/images/practica2_1/SFTP_pasoo14.png)
 
 Si no tuvieráis unzip instalado, lo instaláis:
 
@@ -276,18 +276,57 @@ Fijáos que con el estado de la configuración actual, a vuestro sitio web se pu
 
 Realizad la búsqueda de información adecuada para conseguir esta redirección automática mediante los cambios necesarios en vuestros archivos de hosts virtuales.
 
+Primero que nada entraremos en el archivo:
 
-![Paso 27](Nginx/HTTPS_paso1.png)
+`sudo nano /etc/nginx/sites-available/practicadaw`
 
-![Paso 28](Nginx/HTTPS_paso2.png)
+![Paso 27](assets/images/practica2_1/HTTPS_paso1.png)
 
-![Paso 29](Nginx/HTTPS_paso3.png)
+Editar el script que había antes:
+
+```code
+server {
+    listen 80;
+    listen [::]:80;
+    server_name practicadaw;
+
+    return 301 https://$server_name$request_uri;
+}
+```
+
+y añadir debajo:
+
+```code
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name practicadaw;
+
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+    root /var/www/practicadaw/html/static-website-example/;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+![Paso 28](assets/images/practica2_1/HTTPS_paso2.png)
+
+Finalmente comprobamos que se nos abra la web y muestre este mensaje. Tras esto ya tendremos nuestra web con nginx desplegada.
+
+![Paso 29](assets/images/practica2_1/HTTPS_paso3.png)
 
 ## Cuestiones finales
 
 ### 🟦 Cuestión 1
 
 > **¿Qué pasa si no hago el link simbólico entre `sites-available` y `sites-enabled` de mi sitio web?**
+
+
 
 ### 🟦 Cuestión 2
 
