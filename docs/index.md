@@ -335,3 +335,8 @@ Si no haces el enlace simbólico entre `sites-available`y `sites-enabled`
 ### 🟦 Cuestión 2
 
 > **¿Qué pasa si no le doy los permisos adecuados a `/var/www/nombre_web`?**
+
+- El servidor web no podrá leer los archivos.
+- Si el sitio necesita escribir archivos fallará si no tiene permisos de escritura.
+- Otros usuarios o servicios que dependan de esos archivos no podrán acceder.
+  
