@@ -23,7 +23,7 @@ En primer lugar debemos comprobar si el paquete está instalado:
 
 `dpkg -l | grep openssl`
 
-![openssl](/docs/assets/images/practica2_2/comprobacion_openssl.png)
+![openssl](assets/images/practica2_2/comprobacion_openssl.png)
 Y si no lo estuviera, instalarlo.
 
 ### Creación de usuarios y contraseñas para el acceso web
@@ -32,13 +32,13 @@ Crearemos un archivo oculto llamado “.htpasswd” en el directorio de configur
 
 `sudo sh -c "echo -n 'vuestro_nombre:' >> /etc/nginx/.htpasswd"`
 
-![Archivo oculto .htpasswd](/docs/assets/images/practica2_2/archivo_oculto_htpasswd.png)
+![Archivo oculto .htpasswd](assets/images/practica2_2/archivo_oculto_htpasswd.png)
 
 Ahora crearemos un password cifrado para el usuario:
 
 `sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"`
 
-![Passwd cifrado para el usuario](/docs/assets/images/practica2_2/passwd_cifrado.png)
+![Passwd cifrado para el usuario](assets/images/practica2_2/passwd_cifrado.png)
 
 Este proceso se podrá repetir para tantos usuarios como haga falta.
 
@@ -47,7 +47,7 @@ Este proceso se podrá repetir para tantos usuarios como haga falta.
 
 `cat /etc/nginx/.htpasswd`
 
-![Usuarios y contraseñas cifradas](/docs/assets/images/practica2_2/usuarios_contraseñas_cifradas.png)
+![Usuarios y contraseñas cifradas](assets/images/practica2_2/usuarios_contraseñas_cifradas.png)
 
 ### Configurando el servidor Nginx para usar autenticación básica
 
@@ -59,13 +59,13 @@ Editaremos la configuración del server block sobre el cual queremos aplicar la 
 
 `sudo nano /etc/nginx/sites-available/nombre_web`
 
-![Comando para cambiar las restricciones](/docs/assets/images/practica2_2/comando_restricciones
+![Comando para cambiar las restricciones](assets/images/practica2_2/comando_restricciones
 .png)
 
-![Autenticación básica](/docs/assets/images/practica2_2/autenticacion_basica.png)
+![Autenticación básica](assets/images/practica2_2/autenticacion_basica.png)
 
 Una vez terminada la configuración, reiniciamos el servicio para que aplique nuestra política de acceso.
 
 `sudo systemctl restart nginx`
 
-![Reinicio del servicio](/docs/assets/images/practica2_2/reinicio_servicio.png)
+![Reinicio del servicio](assets/images/practica2_2/reinicio_servicio.png)
