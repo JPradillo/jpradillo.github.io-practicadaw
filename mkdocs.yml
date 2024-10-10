@@ -6,6 +6,6 @@ theme:
     scheme: 'slate'  # Este es el esquema oscuro
 
 nav:
-  - 'index.md'
-  - 'practica1.md'
-  - 'practica2.md'
+  - Tema2: 'index.md'
+    - Práctica 2.1: 'practica1.md'
+    - Práctica 2.2: 'practica2.md'
