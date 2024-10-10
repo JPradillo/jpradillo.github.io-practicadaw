@@ -2,3 +2,7 @@ site_name: Practicas
 site_url: https://mydomain.org/mysite
 theme:
   name: material
+
+nav:
+  - 'index.md'
+  - 'practica2.md'
