@@ -1,7 +1,9 @@
 site_name: Practicas
 site_url: https://mydomain.org/mysite
 theme:
-  name: material
+  name: 'material'
+  palette:
+    scheme: 'slate'  # Este es el esquema oscuro
 
 nav:
   - 'index.md'
