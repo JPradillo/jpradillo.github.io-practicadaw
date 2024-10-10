@@ -5,12 +5,16 @@
 Para instalar el servidor nginx en nuestra Debian, primero actualizamos 
 los repositorios y después instalamos el paquete correspondiente:
 
-`sudo apt update
+`sudo apt update`
 `sudo apt install nginx`
+
+![Paso 1](Nginx/Instalacion_paso1.png)
 
 Comprobamos que nginx se ha instalado y que está funcionando correctamente:
 
 `systemctl status nginx`
+
+![Paso 2](Nginx/Instalacion_paso2.png)
 
 ## Creación de las carpeta del sitio web
 
@@ -20,28 +24,38 @@ Así pues, vamos a crear la carpeta de nuestro sitio web o dominio:
 
 `sudo mkdir -p /var/www/nombre_web/html`
 
+![Paso 3](Nginx/Instalacion_paso3.png)
+
 Dentro de esa carpeta html, debéis clonar el siguiente repositorio:
 
 `https://github.com/cloudacademy/static-website-example`
+
+![Paso 4](Nginx/Instalacion_paso4.png)
 
 Además, haremos que el propietario de esta carpeta y todo lo que haya dentro 
 sea el usuario www-data, típicamente el usuario del servicio web.
 
 `sudo chown -R www-data:www-data /var/www/nombre_web/html`
 
+![Paso 5](Nginx/Instalacion_paso5.png)
+
 Y le daremos los permisos adecuados para que no nos de un error de acceso 
 no autorizado al entrar en el sitio web:
 
 `sudo chmod -R 755 /var/www/nombre_web`
+
+![Paso 6](Nginx/Instalacion_paso6.png)
 
 Para comprobar que el servidor está funcionando y sirviendo páginas 
 correctamente, podéis acceder desde vuestro cliente a:
 
 `http://IP-maq-virtual`
 
+![IP](Nginx/SFTP_IP.png)
+
 Y os deberá aparecer algo así:
 
-![mensaje de nginx](../docs/Nginx/Captura%20de%20pantalla%202024-10-10%20020356.png)
+![Paso 7](Nginx/Instalacion_paso7.png)
 
 Lo que demuestra que todo es correcto hasta ahora.
 
@@ -54,6 +68,8 @@ Dentro de sites-available hay un archivo de configuración por defecto (default)
 Para que Nginx presente el contenido de nuestra web, es necesario crear un bloque de servidor con las directivas correctas. En vez de modificar el archivo de configuración predeterminado directamente, crearemos uno nuevo en /etc/nginx/sites-available/nombre_web:
 
 `sudo nano /etc/nginx/sites-available/vuestro_dominio`
+
+![Paso 8](Nginx/Configuracion_paso1.png)
 
 Y el contenido de ese archivo de configuración:
 
@@ -70,15 +86,21 @@ server {
 }
 ```
 
+![Paso 9](Nginx/Configuracion_paso2.png)
+
 Aquí la directiva root debe ir seguida de la ruta absoluta absoluta dónde se encuentre el archivo index.html de nuestra página web, que se encuentra entre todos los que habéis descomprimido.
 
 Y crearemos un archivo simbólico entre este archivo y el de sitios que están habilitados, para que se dé de alta automáticamente.
 
 `sudo ln -s /etc/nginx/sites-available/nombre_web /etc/nginx/sites-enabled/`
 
+![Paso 10](Nginx/Configuracion_paso3.png)
+
 Y reiniciamos el servidor para aplicar la configuración:
 
 `sudo systemctl restart nginx`
+
+![Paso 11](Nginx/Configuracion_paso4.png)
 
 ## Comprobaciones
 
@@ -94,13 +116,14 @@ Y deberemos añadirle la línea:
 
 `192.168.X.X nombre_web`
 
+![Configuración](Nginx/Configuracion.png)
+
 donde debéis sustituir la IP por la que tenga vuestra máquina virtual.
 
 #### Comprobar registros del servidor
 
 Comprobad que las peticiones se están registrando correctamente en los archivos de logs, tanto las correctas como las erróneas:
  - /var/log/nginx/access.log: cada solicitud a su servidor web se registra en este archivo de registro, a menos que Nginx esté configurado para hacer algo diferente.
-
  - /var/log/nginx/error.log: cualquier error de Nginx se asentará en este registro
 
 > ℹ️ **Información:** Si no os aparece nada en los logs, podría pasar que el navegador ha cacheado la página web y que, por tanto, ya no está obteniendo la página del navegador sino de la propia memoria. Para solucionar esto, podéis acceder con el modo privado del navegador y ya os debería registrar esa actividad en los logs.
@@ -132,9 +155,14 @@ sudo apt-get update
 sudo apt-get install vsftpd
 ```
 
+![Paso 13](Nginx/SFTP_paso1.png)
+![Paso 14](Nginx/SFTP_paso2.png)
+
 Ahora vamos a crear una carpeta en nuestro home en Debian:
 
 `mkdir /home/nombre_usuario/ftp`
+
+![Paso 15](Nginx/SFTP_paso3.png)
 
 En la configuración de vsftpd indicaremos que este será el directorio al cual vsftpd se cambia después de conectarse el usuario.
 
@@ -142,9 +170,14 @@ Ahora vamos a crear los certificados de seguridad necesarios para aportar la cap
 
 `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem`
 
+![Paso 16](Nginx/SFTP_paso4.png)
+![Paso 17](Nginx/SFTP_paso5.png)
+
 Y una vez realizados estos pasos, procedemos a realizar la configuración de vsftpd propiamente dicha. Se trata, con el editor de texto que más os guste, de editar el archivo de configuración de este servicio, por ejemplo con nano:
 
 `sudo nano /etc/vsftpd.conf`
+
+![Paso 18](Nginx/SFTP_paso6.png)
 
 En primer lugar, buscaremos las siguientes líneas del archivo y las eliminaremos por completo:
 
@@ -172,9 +205,13 @@ ssl_ciphers=HIGH
 local_root=/home/nombre_usuario/ftp
 ```
 
+![Paso 19](Nginx/SFTP_paso7.png)
+
 Y, tras guardar los cambios, reiniciamos el servicio para que coja la nueva configuración:
 
 `sudo systemctl restart --now vsftpd`
+
+![Paso 20](Nginx/SFTP_paso8.png)
 
 Tras acabar esta configuración, ya podremos acceder a nuestro servidor mediante un cliente FTP adecuado, como por ejemplo Filezilla de dos formas, a saber:
 - Mediante el puerto por defecto del protocolo inseguro FTP, el 21, pero utilizando certificados que cifran el intercambio de datos convirtiéndolo así en seguro
@@ -182,22 +219,32 @@ Tras acabar esta configuración, ya podremos acceder a nuestro servidor mediante
 
 Tras descargar el cliente FTP en nuestro ordenador, introducimos los datos necesarios para conectarnos a nuestro servidor FTP en Debian:
 
-- La IP de Debian (recuadro rojo)
-- El nombre de usuario de Debian (recuadro verde)
-- La contraseña de ese usuario (recuadro fucsia)
-- El puerto de conexión, que será el 21 para conectarnos utilizando los certificados generados previamente (recuadro marrón)
+![Paso 21](Nginx/SFTP_paso9.png)
+
+- La IP de Debian
+- El nombre de usuario de Debian
+- La contraseña de ese usuario 
+- El puerto de conexión, que será el 21 para conectarnos utilizando los certificados generados previamente
 
 Tras darle al botón de Conexión rápida, nos saltará un aviso a propósito del certificado, le damos a aceptar puesto que no entraña peligro ya que lo hemos genrado nosotros mismos:
+
+![Paso 22](Nginx/SFTP_pasoo10.png)
 
 Nos conectaremos directamente a la carpeta que le habíamos indicado en el archivo de configuración /home/raul/ftp
 
 Una vez conectados, buscamos la carpeta de nuestro ordenador donde hemos descargado el .zip (en la parte izquierda de la pantalla) y en la parte derecha de la pantalla, buscamos la carpeta donde queremos subirla. Con un doble click o utilizando botón derecho > subir, la subimos al servidor.
+
+![Paso 23](Nginx/SFTP_pasoo11.png)
 
 Si lo que quisiéramos es conectarnos por SFTP, exactamente igual de válido, haríamos:
 
 Fijáos que al utilizar las claves de SSH que ya estamos utilizando desde la Práctica 1, no se debe introducir la contraseña, únicamente el nombre de usuario.
 
 Puesto que nos estamos conectando usando las claves FTP, nos sale el mismo aviso que nos salía al conectarnos por primera vez por SSH a nuestra Debian, que aceptamos porque sabemos que no entraña ningún peligro en este caso:
+
+![Paso 24](Nginx/SFTP_pasoo12.png)
+
+![Paso 25](Nginx/SFTP_pasoo13.png)
 
 Y vemos que al ser una especie de conexión SSH, nos conecta al home del usuario, en lugar de a la carpeta ftp. A partir de aquí ya procederíamos igual que en el otro caso.
 
@@ -206,6 +253,8 @@ Recordemos que debemos tener nuestro sitio web en la carpeta /var/www y darle lo
 El comando que nos permite descomprimir un .zip en un directorio concreto es:
 
 `unzip archivo.zip -d /nombre/directorio`
+
+![Paso 26](Nginx/SFTP_pasoo14.png)
 
 Si no tuvieráis unzip instalado, lo instaláis:
 
@@ -226,6 +275,13 @@ Cuando hayáis cumplido con la tarea de dotar de HTTPS a vuestros sitios web, po
 Fijáos que con el estado de la configuración actual, a vuestro sitio web se puede acceder aún de dos formas simultáneas, por el puerto 80 (HTTP e inseguro) y por el puerto 443 (HTTPS, seguro). Puesto que queremos dejar la configuración bien hecha y sin posibles fisuras, vuestro objetivo es que si el usuario accede a vuestro sitio web mediante el puerto 80 (HTTP) automáticamente, por motivos de seguridad, se le redirija a HTTPS, en el puerto 443.
 
 Realizad la búsqueda de información adecuada para conseguir esta redirección automática mediante los cambios necesarios en vuestros archivos de hosts virtuales.
+
+
+![Paso 27](Nginx/HTTPS_paso1.png)
+
+![Paso 28](Nginx/HTTPS_paso2.png)
+
+![Paso 29](Nginx/HTTPS_paso3.png)
 
 ## Cuestiones finales
 
