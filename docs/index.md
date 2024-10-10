@@ -328,8 +328,9 @@ Finalmente comprobamos que se nos abra la web y muestre este mensaje. Tras esto 
 
 Si no haces el enlace simbólico entre `sites-available`y `sites-enabled`
 - Provocarás que tu sitio no esté activo, produciendo errores de acceso (como 404)
-- Aunque hayas hecho la configuración de `sites-available`, no se ejecute.
-- 
+- Aunque hayas hecho la configuración de `sites-available`, el servidor no las reconocerá.
+- Hay riesgo de errores en la configuración que podrían dar la impresión de que el servidor está funcionando después de reiniciarse o recargarse, cuando en realidad no lo está.
+- Pueden haber problemas en la administración de sitios por la dificultad a la hora de gestionar varias configuraciones de sitios, ya que no es posible habilitar o deshabilitar un sitio de manera fácil al agregar o eliminar el enlace en sites-enabled.
 
 ### 🟦 Cuestión 2
 
