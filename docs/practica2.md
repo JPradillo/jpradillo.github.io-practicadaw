@@ -133,11 +133,12 @@ La autenticación básica HTTP puede ser combinada de forma efectiva con la rest
 * Un usuario debe o bien estar autenticado, o bien tener una IP válida
 
 Veamos cómo lo haríamos:
+
 1. Como permitir o denegar acceso sobre una IP concreta (directivas allow y deny, respectivamente). Dentro del block server o archivo de configuración del dominio web, que recordad está en el directorio sites-available:
 
-    ![Restricciones de acceso por IP](assets/images/practica2_2/restriciones_IP.png)   
+![Restricciones de acceso por IP](assets/images/practica2_2/restriciones_IP.png)   
 
-    El acceso se garantizará ala IP 192.168.1.1/24, excluyendo a la dirección 192.168.1.
+    El acceso se garantizará a la IP 192.168.1.1/24, excluyendo a la dirección 192.168.1.
 
     Hay que tener en cuenta que las directivas allow y deny se irán aplicando en el orden en el que aparecen el archivo.
 
@@ -159,13 +160,132 @@ Veamos cómo lo haríamos:
 > 
 
 * Muestra la página de error en el navegador
-* Muestra el mensaje de error de error.log
 
 ![Bloqueo de la máquina anfitriona](assets/images/practica2_2/bloque_maquina_anfitriona.png)
 
 ![Mensaje de bloqueo](assets/images/practica2_2/prueba_navegador.png)
 
+* Muestra el mensaje de error de error.log
+
+![Error desde error.log](assets/images/practica2_2/error_log.png)
+
+----
+
 > 🟩 Tarea 2
 >
 > Configura Nginx para que desde tu máquina anfitriona se tenga que tener tanto una IP válida como un usuario válido, ambas cosas a la vez, y comprueba que sí puede acceder sin problemas.
 >
+![Configuración Nginx](assets/images/practica2_2/configuracion_IP_validacion.png)
+
+* Error al intentar acceder desde el móvil o con usuario incorrecto.
+
+![Error al intentar entrar desde el móvil o usuario incorrectos](assets/images/practica2_2/error_desde_movil.png)
+
+* Acceso con IP y usuario válidos 
+
+![Acceso a web con IP válida y usuario válido](assets/images/practica2_2/IP_y_usuario_validos.png)
+
+### Cuestiones finales
+
+> 🟦 Cuestión 1
+>
+> Supongamos que yo soy el cliente con la IP 172.1.10.15 e intento acceder al directorio `web_muy_guay` de mi sitio web, equivocándome al poner el usuario y contraseña. ¿Podré acceder?¿Por qué?
+>
+> ```code
+> location /web_muy_guay {
+>    #...
+>    satisfy all;    
+>    deny  172.1.10.6;
+>    allow 172.1.10.15;
+>    allow 172.1.3.14;
+>    deny  all;
+>    auth_basic "Cuestión final 1";
+>    auth_basic_user_file conf/htpasswd;
+>  }
+>```
+
+No podrás acceder ya que al haber puesto `satisfy all` estás pidiendo que se cumplan ambas condiciones, tanto IP permitida como una autenticación correcta.
+
+--- 
+
+> 🟦 Cuestión 2
+>
+> ask "Cuestión 1" Supongamos que yo soy el cliente con la IP 172.1.10.15 e intento acceder al directorio `web_muy_guay` de mi sitio web, introduciendo correctamente usuario y contraseña. ¿Podré acceder?¿Por qué?
+>
+> ```code
+> location /web_muy_guay {
+>     #...
+>     satisfy all;    
+>     deny  all;
+>     deny  172.1.10.6;
+>     allow 172.1.10.15;
+>     allow 172.1.3.14;
+> 
+>     auth_basic "Cuestión final 2: The revenge";
+>     auth_basic_user_file conf/htpasswd;
+> }
+> ```
+
+Si introduces correctamente el usuario y la contraseña, podrás acceder al sitio porque cumples ambas condiciones: autenticación válida y tu IP está en la lista permitida.
+
+---
+
+> 🟦 Cuestión 3
+>
+> Supongamos que yo soy el cliente con la IP 172.1.10.15 e intento acceder al directorio web_muy_guay de mi sitio web, introduciendo correctamente usuario y contraseña. ¿Podré acceder?¿Por qué?
+>
+> ```code
+> location /web_muy_guay {
+>     #...
+>     satisfy any;    
+>     deny  172.1.10.6;
+>     deny 172.1.10.15;
+>     allow 172.1.3.14;
+> 
+>     auth_basic "Cuestión final 3: The final combat";
+>     auth_basic_user_file conf/htpasswd;
+> }
+> ```
+
+En este caso, con `satisfy any`, aunque tu IP está bloqueada, no podrás acceder a la web porque se está aplicando una restricción de IP después que tiene prioridad.
+
+---
+
+> 🟦 Cuestión 4
+>
+> A lo mejor no sabéis que tengo una web para documentar todas mis excursiones espaciales con Jeff, es esta: Jeff Bezos y yo
+>
+> Supongamos que quiero restringir el acceso al directorio de proyectos porque es muy secreto, eso quiere decir añadir autenticación básica a la URL:Proyectos
+>
+> Completa la configuración para conseguirlo:
+>
+> ```code
+> server {
+>         listen 80;
+>         listen [::]:80;
+>         root /var/www/freewebsitetemplates.com/preview/space-science;
+>         index index.html index.htm index.nginx-debian.html;
+>         server_name freewebsitetemplates.com www.freewebsitetemplates.com;
+>         location              {
+> 
+>             try_files $uri $uri/ =404;
+>         }
+>     }
+> ```
+
+El código completo con los requisitos sería algo como:
+
+```code
+server {
+    listen 80;
+    listen [::]:80;
+    root /var/www/freewebsitetemplates.com/preview/space-science;
+    index index.html index.htm index.nginx-debian.html;
+    server_name freewebsitetemplates.com www.freewebsitetemplates.com;
+    location /proyectos {
+        auth_basic "Proyectos secretos";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        try_files $uri $uri/ =404;
+    }
+}
+```
