@@ -211,20 +211,19 @@ No podrás acceder ya que al haber puesto `satisfy all` estás pidiendo que se c
 > 🟦 Cuestión 2
 >
 > ask "Cuestión 1" Supongamos que yo soy el cliente con la IP 172.1.10.15 e intento acceder al directorio `web_muy_guay` de mi sitio web, introduciendo correctamente usuario y contraseña. ¿Podré acceder?¿Por qué?
->
-> ```code
-> location /web_muy_guay {
->     #...
->     satisfy all;    
->     deny  all;
->     deny  172.1.10.6;
->     allow 172.1.10.15;
->     allow 172.1.3.14;
-> 
->     auth_basic "Cuestión final 2: The revenge";
->     auth_basic_user_file conf/htpasswd;
-> }
-> ```
+
+```code
+location /web_muy_guay {
+    #...
+    satisfy all;    
+    deny  all;
+    deny  172.1.10.6;
+    allow 172.1.10.15;
+    allow 172.1.3.14;
+    auth_basic "Cuestión final 2: The revenge";
+    auth_basic_user_file conf/htpasswd;
+}
+```
 
 Si introduces correctamente el usuario y la contraseña, podrás acceder al sitio porque cumples ambas condiciones: autenticación válida y tu IP está en la lista permitida.
 
@@ -234,18 +233,18 @@ Si introduces correctamente el usuario y la contraseña, podrás acceder al siti
 >
 > Supongamos que yo soy el cliente con la IP 172.1.10.15 e intento acceder al directorio web_muy_guay de mi sitio web, introduciendo correctamente usuario y contraseña. ¿Podré acceder?¿Por qué?
 >
-> ```code
-> location /web_muy_guay {
->     #...
->     satisfy any;    
->     deny  172.1.10.6;
->     deny 172.1.10.15;
->     allow 172.1.3.14;
-> 
->     auth_basic "Cuestión final 3: The final combat";
->     auth_basic_user_file conf/htpasswd;
-> }
-> ```
+```code
+location /web_muy_guay {
+    #...
+    satisfy any;    
+    deny  172.1.10.6;
+    deny 172.1.10.15;
+    allow 172.1.3.14;
+
+    auth_basic "Cuestión final 3: The final combat";
+    auth_basic_user_file conf/htpasswd;
+}
+```
 
 En este caso, con `satisfy any`, aunque tu IP está bloqueada, no podrás acceder a la web porque se está aplicando una restricción de IP después que tiene prioridad.
 
@@ -259,19 +258,19 @@ En este caso, con `satisfy any`, aunque tu IP está bloqueada, no podrás accede
 >
 > Completa la configuración para conseguirlo:
 >
-> ```code
-> server {
->         listen 80;
->         listen [::]:80;
->         root /var/www/freewebsitetemplates.com/preview/space-science;
->         index index.html index.htm index.nginx-debian.html;
->         server_name freewebsitetemplates.com www.freewebsitetemplates.com;
->         location              {
-> 
->             try_files $uri $uri/ =404;
->         }
->     }
-> ```
+```code
+server {
+        listen 80;
+        listen [::]:80;
+        root /var/www/freewebsitetemplates.com/preview/space-science;
+        index index.html index.htm index.nginx-debian.html;
+        server_name freewebsitetemplates.com www.freewebsitetemplates.com;
+        location              {
+
+            try_files $uri $uri/ =404;
+        }
+    }
+```
 
 El código completo con los requisitos sería algo como:
 
