@@ -2,7 +2,7 @@
 
 ## Requisitos antes de comenzar la práctica
 
-> ⚡ **Atención, muy importante antes de empezar**
+> [!WARNING] 
 > 
 > - La práctica 2.1 ha de estar funcionando correctamente.
 > - No empezar la práctica antes de tener la 2.1 **funcionando y comprobada**.
@@ -53,9 +53,8 @@ Este proceso se podrá repetir para tantos usuarios como haga falta.
 
 Editaremos la configuración del server block sobre el cual queremos aplicar la restricción de acceso. Utilizaremos para esta autenticación el sitio web de Perfect Learn:
 
-> ℹ️ **Info**
->-----
->Recuerda que un *server block* es cada uno de los dominios (`server {...}` dentro del archivo de configuración) de alguno de los sitios web que hay en el seridor.
+> [!NOTE]
+> Recuerda que un *server block* es cada uno de los dominios (`server {...}` dentro del archivo de configuración) de alguno de los sitios web que hay en el seridor.
 
 `sudo nano /etc/nginx/sites-available/nombre_web`
 
@@ -119,7 +118,7 @@ Esta sección se corresponde con el archivo `contact.html` dentro del directorio
 >
 > Borra las dos líneas que hacen referencia a la autenticación básica en el location del direectorio raíz. Tras ello, añade un nuevo location debajo con la autenticación básica para el archivo/sección `contacto.html` unicamente.
 
-> ⚠️ Warning!
+> [!WARNING]
 >
 > Fijaos que debéis tener cuidado porque la última línea del archivo ha de ser `}` que cierra la primera línea `server {` del archivo.
 
