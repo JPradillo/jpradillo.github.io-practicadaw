@@ -53,7 +53,7 @@ Este proceso se podrá repetir para tantos usuarios como haga falta.
 
 Editaremos la configuración del server block sobre el cual queremos aplicar la restricción de acceso. Utilizaremos para esta autenticación el sitio web de Perfect Learn:
 
-> [!NOTE]
+> [!NOTE]Info
 > Recuerda que un *server block* es cada uno de los dominios (`server {...}` dentro del archivo de configuración) de alguno de los sitios web que hay en el seridor.
 
 `sudo nano /etc/nginx/sites-available/nombre_web`
@@ -83,6 +83,7 @@ Una vez terminada la configuración, reiniciamos el servicio para que aplique nu
 ### Tareas 
 
 > 🟩 Tarea 1
+> 
 > * Intenta entrar primero con un usuario erróneo y luego con otro correcto. Puedes ver todos los sucesos y registros en los logs access.log y error.log
 > * Adjunta una captura de pantalla de los logs donde se vea que intentas entrar primero con un usuario inválido y con otro válido. Indica dónde podemos ver los errores de usuario inválido o no encontrado, así como donde podemos ver el número de error que os aparecía antes
 
@@ -118,7 +119,7 @@ Esta sección se corresponde con el archivo `contact.html` dentro del directorio
 >
 > Borra las dos líneas que hacen referencia a la autenticación básica en el location del direectorio raíz. Tras ello, añade un nuevo location debajo con la autenticación básica para el archivo/sección `contacto.html` unicamente.
 
-> [!WARNING]
+> [!WARNING] Warning
 >
 > Fijaos que debéis tener cuidado porque la última línea del archivo ha de ser `}` que cierra la primera línea `server {` del archivo.
 
