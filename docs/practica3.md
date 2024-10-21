@@ -98,19 +98,32 @@ El diagrama de red quedaría así:
 
 ![Servidor Proxy](assets/images/practica2_3/servidor_proxy.png)
 
+![Generar nuevas direcciones MAC](assets/images/practica2_3/nuevas_direcciones_mac.png)
+
 Para que todo quede más diferenciado y os quede más claro que la petición está pasando por el proxy inverso y llega al servidor web destino, vamos a hacer que cada uno de los servidores escuche las peticiones en un puerto distinto.
 
 1. En primer lugar, debéis cambiar el nombre que tuviera vuestra web por el de `webserver`, ello implica:
 
-* Cambiar el nombre del archivo de configuración de sitios disponibles par Nginx
+* Cambiar el nombre del archivo de configuración de sitios disponibles para Nginx
 
 * Cambiar el nombre del sitio web dentro de este archivo de configuración donde haga falta
 
+![alt text](assets/images/practica2_3/cambio_nombre_directorio.png)
+
+![alt text](assets/images/practica2_3/cambio_archivo_configuracion.png)
+
 * No os olvidéis de eliminar el link simbólico antiguo con el comando `unlink nombre_del_link` dentro de la carpeta `sites-enabled` y crear el nuevo para el nuevo nombre de archivo.
 
-2. En el archivo de configuración del sitio web, en lugar de hacer que el servidor escuche en el puerto 80, cambiadlo al 8080.
+![alt text](assets/images/practica2_3/unlink_practicadaw.png)
 
-3. Reiniciar Nginx
+
+1. En el archivo de configuración del sitio web, en lugar de hacer que el servidor escuche en el puerto 80, cambiadlo al 8080.
+
+![Configuración puerto 8080](assets/images/practica2_3/configuracion_puerto_8080.png)
+
+2. Reiniciar Nginx
+
+![Reiniciar Nginx](assets/images/practica2_3/reiniciar_nginx.png)
 
 ##### Nginx proxy inverso
 
@@ -141,11 +154,15 @@ Donde, ***mirando el diagrama de red y teniendo en cuenta la configuración hech
 
 * Crear el link simbólico pertinente
 
+![Creación del link simbólico](assets/images/practica2_3/cracion_link_simbolico.png)
+
 Esto es para simular la situación en la que nosotros, como clientes, cuando accedamos a nuestro sitio web, no necesitemos saber cómo está todo configurado, sólo necesitamos saber el nombre de la web.
 
 >[!WARNING]¡Atención, muy importante!
 >
 > **Debéis modificar el archivo host que configurastéis en la práctica 2.1. Si miráis el diagrama de red, ahora el nombre de vuestro sitio web se corresponderá con la IP de la nueva máquina clon que hace de proxy.** Será ésta la encargada de redirigirnos automáticamente al verdadero sitio web.
+
+![Modificicación archivo host](modificacion_archivo_host.png)
 
 ### Comprobaciones
 
@@ -153,7 +170,13 @@ Si accedéis a vuestro sitio web, debéis poder seguir accediendo sin problemas.
 
 * Comprobad en los access.log de los dos servidores que llega la petición
 
+![Proxy -> access_log](access_log_proxy.png)
+
+![Servidor -> access_log](access_log_servidor.png)
+
 * Comprobad además la petición y respuesta con las herramientas de desarrollador de Firefox en Xubuntu. Pulsando F12 en el navegador os aparecerán estas herramientas
+
+Comprobación de ejemplo:
 
 ![Comprobación de ejemplo](assets/images/practica2_3/comprobacion_ejemplo.png)
 
@@ -177,22 +200,36 @@ add_header Host nombre_del_host;
 
 1. Añadiremos primero esta cabecera únicamente en el archivo de configuración del sitio web del proxy inverso. El Nombre_del_host será Proxy_inverso_vuestronombre.
 
-2. Reiniciamos Nginx
+![Asignación nombre Host a proxy](assets/images/practica2_3/asignacion_nombreHost_proxy.png)
 
-3. Comprobamos que podemos acceder al sitio web sin problemas
+1. Reiniciamos Nginx
 
-4. Con las herramientas de desarrollador comprobamos que la petición ha pasado por el proxy inverso que ha añadido la cabecera en la respuesta:
+![Reinicio Nginx](assets/images/practica2_3/reiniciar_nginx.png)
+
+1. Comprobamos que podemos acceder al sitio web sin problemas
+
+2. Con las herramientas de desarrollador comprobamos que la petición ha pasado por el proxy inverso que ha añadido la cabecera en la respuesta:
 
 ![Comprobación de que la petición ha pasado por el proxy inverso ejemplo](assets/images/practica2_3/comprobacion_proxy_inverso_ejemplo.png)
 
-Hacemos lo propio con el servidor web. Esta vez el `Nombre_del_host` será s`ervidor_web_vuestronombre`.
+En nuestro caso, aun habiendo hecho estos ajustes, sigue sin salir el host con el nombre que le hemos indicado.
+
+![Cambio de nombre Host en el proxy inverso](assets/images/practica2_3/cambio_nombreHost_proxy.png)
+
+![Error en el cambio de nombre](assets/images/practica2_3/error_cambio_nombreHost_proxy.png)
+
+Para cambiar esto lo que hemos hecho ha sido añadir dos cambio de nombre en el servidor proxy.
+
+Hacemos lo propio con el servidor web. Esta vez el `Nombre_del_host` será `servidor_web_vuestronombre`.
+
+![Cambio de nombre Host en el servidor web](assets/images/practica2_3/cambio_nombreHost_servidor.png)
 
 Si todo está configurado correctamente, al examinar las peticiones y respuestas, os aparecerán las dos cabeceras que han incluido en la respuesta tanto el proxy inverso como el servidor web. .
 
-![cabeceras_proxy_ejemplo](assets/images/practica2_3/cabeceras_proxy_ejemplo.png)
+![Cabeceras proxy](assets/images/practica2_3/cabeceras_proxy.png)
 
 Es muy importante que para realizar estas comprobaciones tengáis marcado el checkbox Desactivar caché o en una ventana privada del navegador.
 
-![Desactivar la cache ejemplo](assets/images/practica2_3/desactivar_cache_ejemplo.png)
+![Desactivar cache](assets/images/practica2_3/desactivar_cache.png)
 
 Si no marcáis esto, la página se guardará en la memoria caché del navegador y no estaréis recibiendo la respuesta del servidor sino de la caché del navegador, lo que puede dar lugar a resultados erróneos.
