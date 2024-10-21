@@ -162,7 +162,7 @@ Esto es para simular la situación en la que nosotros, como clientes, cuando acc
 >
 > **Debéis modificar el archivo host que configurastéis en la práctica 2.1. Si miráis el diagrama de red, ahora el nombre de vuestro sitio web se corresponderá con la IP de la nueva máquina clon que hace de proxy.** Será ésta la encargada de redirigirnos automáticamente al verdadero sitio web.
 
-![Modificicación archivo host](modificacion_archivo_host.png)
+![Modificicación archivo host](assets/images/practica2_3/modificacion_archivo_host.png)
 
 ### Comprobaciones
 
@@ -170,9 +170,9 @@ Si accedéis a vuestro sitio web, debéis poder seguir accediendo sin problemas.
 
 * Comprobad en los access.log de los dos servidores que llega la petición
 
-![Proxy -> access_log](access_log_proxy.png)
+![Proxy -> access_log](assets/images/practica2_3/access_log_proxy.png)
 
-![Servidor -> access_log](access_log_servidor.png)
+![Servidor -> access_log](assets/images/practica2_3/access_log_servidor.png)
 
 * Comprobad además la petición y respuesta con las herramientas de desarrollador de Firefox en Xubuntu. Pulsando F12 en el navegador os aparecerán estas herramientas
 
