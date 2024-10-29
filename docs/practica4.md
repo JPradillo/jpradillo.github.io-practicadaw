@@ -172,16 +172,164 @@ Nuestro balanceador de carga está constantemente monitorizando “la salud” d
 
 ### Cuestiones finales
 
+---
 > [!TIP]Cuestión 1
 >
 > Busca información de qué otros métodos de balanceo se pueden aplicar con Nginx y describe al menos 3 de ellos.
+---
 
+Otros métodos de balanceo que se pueden aplicar con Nginx son por ejemplo:
+
+1. Round-robin → Lo que hace es distribuir las solicitudes de forma secuencial entre los servidores.
+2. Least Connections → Envía las solicitudes al servidor que contiene menos conexiones activas.
+3. IP Hash → La distribución se basa en la dirección IP del cliente. Le asigna al mismo cliente el mismo servidor siempre.
+
+---
 > [!TIP]Cuestión 2
 >
 > Si quiero añadir 2 servidores web más al balanceo de carga, describe detalladamente qué configuración habría que añadir y dónde.
+---
 
+Solamente hay que añadir las ip al bloque upstream de balanceo. Por ejemplo:
+```
+upstream backend_hosts {
+    random;
+    server 192.168.159.154:8080;
+    server 192.168.159.144:8080;
+    server 192.168.159.168:8080;
+    server 192.168.159.129:8080;
+}
+```
+
+---
 > [!TIP]Cuestión 3
 >
 > Describe todos los pasos que deberíamos seguir y configurar para realizar el balanceo de carga con una de las webs de prácticas anteriores.
 >
-Indicad la configuración de todas las máquinas (webservers, proxy...) y de sus servicios
+> Indicad la configuración de todas las máquinas (webservers, proxy...) y de sus servicios
+---
+
+Para realizar el balanceo de carga utilizando Nginx con los servidores web de las prácticas anteriores, necesitas seguir una serie de pasos que abarcan la configuración de los servidores web, el proxy inverso y las pruebas de funcionamiento. A continuación, se describe un procedimiento detallado que incluye la configuración de todas las máquinas involucradas.
+
+# PASO 1: CONFIGURACIÓN DE LOS SERVIDORES WEB
+
+## WEBSERVER1
+
+### Desactivamos los sitios web de las practicas anteriores
+
+Para ello utilizamos el comando sudo unlink `/etc/nginx/sites-enabled/webserver`
+
+![Desactivamos los sitios web](image.png)
+
+### Creamos el archivo de configuracion para webserver1 en la carpeta /etc/nginx/sites-available y enlazamos a sites-enabled
+
+```
+server {
+    listen 8080;
+    server_name webserver1;
+
+    root /var/www/webserver1/html;
+    index index.html;
+
+    add_header Serv_Web1 "tu_nombre";
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+Después de poner esto en el archivo `/etc/nginx/sites-available/webserver1` enlazamos a `sites-enables` con el comando sudo ln -s /etc/nginx/sites-available/webserver1 /etc/nginx/sites-enabled/
+
+![Configuracion webserver1](image-1.png)
+
+### Archivo index.html en /var/www/webserver1/html
+
+Creamos el directorio `/var/www/webserver1/html` y creamos en él, el archivo `index.html` con el siguiente código:
+
+```html
+<html lang="es">
+<head>
+    <title>Prueba de balanceo de carga con Nginx</title>
+</head>
+<body>
+    <h2>Este es el servidor web 1</h2>
+    <p>Comprueba el balanceo de carga con Nginx recargando esta página</p>>
+</body>
+</html>
+```
+
+![Index.html](image-2.png)
+
+### Reiniciar NGINX con el comando: `sudo systemctl restart nginx.config`
+
+![Reiniciar nginx](image-3.png)
+
+### Clonamos ahora la máquina virtual y le ponemos el nombre webserver2
+
+IMPORTANTE
+---
+Hay que cambiar la opción de la dirección MAC
+
+![Direccion MAC](image-17.png)
+
+![Clonamos webserver1](image-16.png)
+
+## WEBSERVER2 
+
+### Repetimos los procesos pero cambiando webserver1 por webserver2
+
+### Cambios en /etc/nginx/sites-available/webserver2
+
+![cambios webserver2](image-4.png)
+
+### Cambios html
+
+![cambios index.html](image-5.png)
+
+### Reiniciar NGINX
+
+![Reiniciar nginx](image-6.png)
+
+### Vamos a la máquina que configuramos el proxy inverso en la práctica 2.3
+
+## Balanceo de Carga
+
+### Archivo de configuración
+
+
+
+![Archivo balanceo](image-7.png)
+
+### Enlace de balanceo a sites-enabled
+
+![Enlace a sites-enabled](image-8.png)
+
+### Reiniciar NGINX
+
+![Reiniciar nginx](image-9.png)
+
+### Configuración /etc/hosts de todas las máquinas
+
+#### Webserver1
+
+![webserver1](image-10.png)
+
+#### Webserver2
+
+![webserver2](image-11.png)
+
+#### Proxy inverso 
+
+![Proxy inverso](image-12.png)
+
+
+### Reiniciar NGINX
+
+![Reiniciar nginx](image-13.png)
+
+### Mensajes que se muestran al entrar a http://balanceo y pulsar F5 desde la máquina anfitriona.
+
+![balanceo webserver2](image-14.png)
+
+![balanceo webserver1](image-15.png)
