@@ -219,7 +219,7 @@ Para realizar el balanceo de carga utilizando Nginx con los servidores web de la
 
 Para ello utilizamos el comando sudo unlink `/etc/nginx/sites-enabled/webserver`
 
-![Desactivamos los sitios web](image.png)
+![Desactivamos los sitios web](assets/images/practica2_4/image.png)
 
 ### Creamos el archivo de configuracion para webserver1 en la carpeta /etc/nginx/sites-available y enlazamos a sites-enabled
 
@@ -241,7 +241,7 @@ server {
 
 Después de poner esto en el archivo `/etc/nginx/sites-available/webserver1` enlazamos a `sites-enables` con el comando sudo ln -s /etc/nginx/sites-available/webserver1 /etc/nginx/sites-enabled/
 
-![Configuracion webserver1](image-1.png)
+![Configuracion webserver1](assets/images/practica2_4/image-1.png)
 
 ### Archivo index.html en /var/www/webserver1/html
 
@@ -259,11 +259,11 @@ Creamos el directorio `/var/www/webserver1/html` y creamos en él, el archivo `i
 </html>
 ```
 
-![Index.html](image-2.png)
+![Index.html](assets/images/practica2_4/image-2.png)
 
 ### Reiniciar NGINX con el comando: `sudo systemctl restart nginx.config`
 
-![Reiniciar nginx](image-3.png)
+![Reiniciar nginx](assets/images/practica2_4/image-3.png)
 
 ### Clonamos ahora la máquina virtual y le ponemos el nombre webserver2
 
@@ -271,9 +271,9 @@ IMPORTANTE
 ---
 Hay que cambiar la opción de la dirección MAC
 
-![Direccion MAC](image-17.png)
+![Direccion MAC](assets/images/practica2_4/image-17.png)
 
-![Clonamos webserver1](image-16.png)
+![Clonamos webserver1](assets/images/practica2_4/image-16.png)
 
 ## WEBSERVER2 
 
@@ -281,15 +281,17 @@ Hay que cambiar la opción de la dirección MAC
 
 ### Cambios en /etc/nginx/sites-available/webserver2
 
-![cambios webserver2](image-4.png)
+![cambios webserver2](assets/images/practica2_4/image-4.png)
 
 ### Cambios html
 
-![cambios index.html](image-5.png)
+![cambios index.html](assets/images/practica2_4/image-5.png)
 
 ### Reiniciar NGINX
 
-![Reiniciar nginx](image-6.png)
+![Reiniciar nginx](assets/images/practica2_4/image-6.png)
+
+# PASO 2: CONFIGURACIÓN DEL PROXY INVERSO
 
 ### Vamos a la máquina que configuramos el proxy inverso en la práctica 2.3
 
@@ -297,39 +299,38 @@ Hay que cambiar la opción de la dirección MAC
 
 ### Archivo de configuración
 
-
-
-![Archivo balanceo](image-7.png)
+![Archivo balanceo](assets/images/practica2_4/image-7.png)
 
 ### Enlace de balanceo a sites-enabled
 
-![Enlace a sites-enabled](image-8.png)
+![Enlace a sites-enabled](assets/images/practica2_4/image-8.png)
 
 ### Reiniciar NGINX
 
-![Reiniciar nginx](image-9.png)
+![Reiniciar nginx](assets/images/practica2_4/image-9.png)
 
-### Configuración /etc/hosts de todas las máquinas
+# PASO 3: CONFIGURACIÓN DE /ETC/HOSTS
 
 #### Webserver1
 
-![webserver1](image-10.png)
+![webserver1](assets/images/practica2_4/image-10.png)
 
 #### Webserver2
 
-![webserver2](image-11.png)
+![webserver2](assets/images/practica2_4/image-11.png)
 
 #### Proxy inverso 
 
-![Proxy inverso](image-12.png)
-
+![Proxy inverso](assets/images/practica2_4/image-12.png)
 
 ### Reiniciar NGINX
 
-![Reiniciar nginx](image-13.png)
+![Reiniciar nginx](assets/images/practica2_4/image-13.png)
+
+# PASO 4: COMPROBACIONES 
 
 ### Mensajes que se muestran al entrar a http://balanceo y pulsar F5 desde la máquina anfitriona.
 
-![balanceo webserver2](image-14.png)
+![balanceo webserver2](assets/images/practica2_4/image-14.png)
 
-![balanceo webserver1](image-15.png)
+![balanceo webserver1](assets/images/practica2_4/image-15.png)
